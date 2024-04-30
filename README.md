@@ -1,3 +1,8 @@
+# guitar.nvim
+
+A plugin to aid in writing guitar tablature in neovim.
+
+<!--
 # A Neovim Plugin Template
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ellisonleao/nvim-plugin-template/lint-test.yml?branch=main&style=for-the-badge)
@@ -45,3 +50,4 @@ Click on `Use this template`
 │   └── plugin_name
 │       └── plugin_name_spec.lua
 ```
+-->
