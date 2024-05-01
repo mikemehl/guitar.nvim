@@ -15,6 +15,11 @@ describe("staff commands", function()
     vim.api.nvim_set_current_buf(test_buf)
   end)
 
+  after_each(function()
+    vim.api.nvim_win_close(test_win, true)
+    vim.api.nvim_buf_delete(test_buf, { force = true })
+  end)
+
   it("adds a tablature staff to the current buffer", function()
     local expected_buf = {
       "E|--------------------------------------------------------------------------------|",
@@ -28,15 +33,12 @@ describe("staff commands", function()
     assert(cmds.add_staff(), "Add staff returned false")
     local buflines = vim.api.nvim_buf_get_lines(test_buf, 0, -1, true)
     assert(buflines, "Unable to read buffer lines")
-    assert(
-      #buflines == #expected_buf,
-      "Unexpected number of lines in buffer: " .. tostring(#buflines) .. " but expected " .. tostring(#expected_buf)
-    )
-    for i = 1, #buflines, 1 do
-      assert(
-        expected_buf[i] == buflines[i],
-        "Line " .. tostring(i) .. "does not match\nExpected: \n" .. expected_buf[i] .. "\nGot:\n" .. buflines[i] .. "\n"
-      )
-    end
+    assert.are.same(expected_buf, buflines)
+  end)
+  it("removes a tablature staff from the current buffer", function()
+    assert.is_true(cmds.add_staff())
+    assert.is_true(cmds.remove_staff())
+    local buflines = vim.api.nvim_buf_get_lines(test_buf, 0, -1, true)
+    assert.are.same(buflines, { "" })
   end)
 end)

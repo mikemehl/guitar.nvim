@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "runtime.version": "LuaJIT",
+  "diagnostics.globals": [
+    "vim",
+    "describe",
+    "it",
+    "before_each",
+    "after_each",
+    "assert"
+  ],
+  "doc.privateName": [
+    "__"
+  ],
+  "workspace.library": [
+    "/home/mike/.local/share/nvim/lazy/?/lua/?.lua",
+    "/home/mike/.luarocks/share/lua/?/?.lua"
+  ],
+  "runtime.path": [
+    "/home/mike/.local/share/nvim/lazy/plenary.nvim/lua/luassert/?.lua",
+    "/home/mike/.luarocks/share/lua/?/?.lua"
+  ]
+}

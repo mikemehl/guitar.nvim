@@ -79,4 +79,10 @@ function Staff:get()
   return self.__state
 end
 
+---@return string[]
+function Staff:get_split()
+  self:generate()
+  return vim.fn.split(self.__state, "\n")
+end
+
 return staff

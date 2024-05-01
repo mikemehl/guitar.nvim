@@ -74,6 +74,7 @@ local function has_staff(row, buf)
   return false
 end
 
+---@return boolean
 function cmds.add_staff()
   local coords = get_coords()
   local cfg = config.get()
@@ -83,12 +84,12 @@ function cmds.add_staff()
   return track_staff(coords.row, coords.buf)
 end
 
+---@return boolean
 function cmds.remove_staff()
   local coords = get_coords()
-  local s = staffs[coords.row]
   if not has_staff(coords.row, coords.buf) then
     vim.notify_once("No staff at cursor position.", vim.log.levels.WARN)
-    return
+    return false
   end
   vim.api.nvim_buf_set_lines(coords.buf, coords.row, coords.row + config.length, false, {})
   return untrack_staff(coords.row, coords.buf)
