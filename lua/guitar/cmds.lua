@@ -54,7 +54,7 @@ local function untrack_staff(row, buf)
     return false
   end
   for i = #staffs[row], 1, -1 do
-    if staffs[row] == buf then
+    if staffs[row][i] == buf then
       table.remove(staffs[row], i)
       return true
     end
@@ -67,7 +67,7 @@ local function has_staff(row, buf)
     return false
   end
   for i = #staffs[row], 1, -1 do
-    if staffs[row] == buf then
+    if staffs[row][i] == buf then
       return true
     end
   end
@@ -87,11 +87,13 @@ end
 ---@return boolean
 function cmds.remove_staff()
   local coords = get_coords()
+  local cfg = config.get()
   if not has_staff(coords.row, coords.buf) then
     vim.notify_once("No staff at cursor position.", vim.log.levels.WARN)
     return false
   end
-  vim.api.nvim_buf_set_lines(coords.buf, coords.row, coords.row + config.length, false, {})
+  local row = coords.row - 1
+  vim.api.nvim_buf_set_lines(coords.buf, row, row + cfg.length, false, {})
   return untrack_staff(coords.row, coords.buf)
 end
 
