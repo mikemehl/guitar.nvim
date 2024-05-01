@@ -11,23 +11,27 @@ local staffs = {}
 
 ---@return boolean
 ---Returns true if the user is in visual mode.
-local function is_visual() return vim.api.nvim_get_mode().mode == "visual" end
+local function is_visual()
+  return vim.api.nvim_get_mode().mode == "visual"
+end
 
 ---@return boolean
 ---Returns true if the user is in normal mode.
-local function is_normal() return vim.api.nvim_get_mode().mode == "normal" end
+local function is_normal()
+  return vim.api.nvim_get_mode().mode == "normal"
+end
 
 ---@return {win: number, buf: number, col: number, row: number}
 ---Returns a table with the current window, buffer, cursor column, and cursor row
 local function get_coords()
   local buf = vim.api.nvim_get_current_buf()
   local win = vim.api.nvim_get_current_win()
-  local row, col = vim.api.nvim_win_get_cursor(win)
+  local coords = vim.api.nvim_win_get_cursor(win)
   return {
     win = win,
     buf = buf,
-    row = row,
-    col = col,
+    row = coords[1],
+    col = coords[2],
   }
 end
 
@@ -35,7 +39,9 @@ end
 ---@param buf number
 ---@return boolean
 local function track_staff(row, buf)
-  if not staffs[row] then staffs[row] = {} end
+  if not staffs[row] then
+    staffs[row] = {}
+  end
   table.insert(staffs[row], buf)
   return true
 end
@@ -44,7 +50,9 @@ end
 ---@param buf number
 ---@return boolean
 local function untrack_staff(row, buf)
-  if not staffs[row] then return false end
+  if not staffs[row] then
+    return false
+  end
   for i = #staffs[row], 1, -1 do
     if staffs[row] == buf then
       table.remove(staffs[row], i)
@@ -55,7 +63,9 @@ local function untrack_staff(row, buf)
 end
 
 local function has_staff(row, buf)
-  if not staffs[row] then return false end
+  if not staffs[row] then
+    return false
+  end
   for i = #staffs[row], 1, -1 do
     if staffs[row] == buf then
       return true
@@ -66,8 +76,10 @@ end
 
 function cmds.add_staff()
   local coords = get_coords()
-  local s = staff.new(config.strings, config.length):get()
-  vim.api.nvim_buf_set_lines(coords.buf, coords.row, coords.row, false, vim.fn.split(s, "\n"))
+  local cfg = config.get()
+  local s = staff.new(cfg.tuning, cfg.length):get()
+  -- vim.api.nvim_buf_set_lines(coords.buf, coords.row, coords.row, false, vim.fn.split(s, "\n"))
+  vim.api.nvim_put(vim.fn.split(s, "\n"), "l", false, false)
   return track_staff(coords.row, coords.buf)
 end
 
@@ -78,7 +90,7 @@ function cmds.remove_staff()
     vim.notify_once("No staff at cursor position.", vim.log.levels.WARN)
     return
   end
-  vim.api.nvim_buf_set_lines(coords.buf, coords.row, coords.row, false, {})
+  vim.api.nvim_buf_set_lines(coords.buf, coords.row, coords.row + config.length, false, {})
   return untrack_staff(coords.row, coords.buf)
 end
 

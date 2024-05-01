@@ -54,7 +54,7 @@ function Staff:generate()
     out = out .. n .. string.rep(" ", self.__tune_column_size - string.len(n)) .. "|" .. string.rep("-", self.length)
     for _, barline in ipairs(self.barlines) do
       local col = self.__tune_column_size + 1 + barline
-      out = string.sub(out, 1, col - 1) .. '|' .. string.sub(out, col + 1)
+      out = string.sub(out, 1, col - 1) .. "|" .. string.sub(out, col + 1)
     end
     out = out .. "|\n"
     full_out = full_out .. out

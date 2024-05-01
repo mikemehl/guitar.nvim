@@ -7,15 +7,29 @@ local config = {}
 ---@field length number
 local GuitarConfig = {}
 
+local __config = {}
+
 ---@return GuitarConfig
 function config.default()
   local c = {
     msg = "Hello!",
-    tuning = { "E", "A", "D", "G", "B", "E" },
+    tuning = { "E", "B", "G", "D", "A", "E" },
     length = 80,
   }
   setmetatable(c, { __index = GuitarConfig })
   return c
 end
+
+---@return GuitarConfig
+function config.get()
+  return __config
+end
+
+---@param cfg GuitarConfig
+function config.set(cfg)
+  __config = vim.tbl_deep_extend("force", config.default(), cfg)
+end
+
+__config = config.default()
 
 return config
