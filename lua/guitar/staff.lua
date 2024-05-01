@@ -48,23 +48,18 @@ end
 
 ---@private
 function Staff:generate()
-  local out = ""
+  local full_out = ""
   for _, n in ipairs(self.strings) do
-    out = out .. n
-    while #out < self.__tune_column_size do
-      out = out .. " "
-    end
-    out = out .. "|"
-    for i = 1, self.length, 1 do
-      if has_barline(self.barlines, i) then
-        out = out .. "|"
-      else
-        out = out .. "-"
-      end
+    local out = ""
+    out = out .. n .. string.rep(" ", self.__tune_column_size - string.len(n)) .. "|" .. string.rep("-", self.length)
+    for _, barline in ipairs(self.barlines) do
+      local col = self.__tune_column_size + 1 + barline
+      out = string.sub(out, 1, col - 1) .. '|' .. string.sub(out, col + 1)
     end
     out = out .. "|\n"
+    full_out = full_out .. out
   end
-  self.__state = out
+  self.__state = full_out
 end
 
 ---@return boolean
