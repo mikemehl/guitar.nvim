@@ -1,10 +1,13 @@
 ---@module 'guitar.config'
 local config = {}
 
----@class GuitarConfig
----@field msg string
+---@class GuitarConfigDefaults
 ---@field tuning string[]
 ---@field length number
+---@field spacing number
+
+---@class GuitarConfig
+---@field defaults GuitarConfigDefaults
 local GuitarConfig = {}
 
 local __config = {}
@@ -12,9 +15,11 @@ local __config = {}
 ---@return GuitarConfig
 function config.default()
   local c = {
-    msg = "Hello!",
-    tuning = { "E", "B", "G", "D", "A", "E" },
-    length = 80,
+    defaults = {
+      tuning = { "E", "B", "G", "D", "A", "E" },
+      length = 80,
+      spacing = 1,
+    },
   }
   setmetatable(c, { __index = GuitarConfig })
   return c
