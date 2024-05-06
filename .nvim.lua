@@ -11,6 +11,7 @@ end
 ---@field end_row number
 ---@field buf number
 ---@field length number
+---@field extmark number
 
 ---@type Number
 local namespace = {}
@@ -20,8 +21,6 @@ local tuning = nil
 
 ---@type Staff[]
 local staffs = {}
-
----@type {row: number, tuning: Tuning}
 
 ---@param new_tuning Tuning
 local function set_tuning(new_tuning)
@@ -63,10 +62,11 @@ local function add_staff(length)
     row = pos[1],
     end_row = pos[1] + #tuning,
     buf = vim.api.nvim_get_current_buf(),
+    extmark = -1,
   }
   draw_staff(new_staff)
   table.insert(staffs, new_staff)
-  vim.api.nvim_buf_set_extmark(0, namespace, new_staff.row, 0, { end_row = new_staff.end_row })
+  new_staff.extmark = vim.api.nvim_buf_set_extmark(0, namespace, new_staff.row, 0, { end_row = new_staff.end_row })
   return true
 end
 
