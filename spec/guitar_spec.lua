@@ -53,6 +53,62 @@ describe("add_staff", function()
   end)
 
   it("can move between staffs", function()
-    pending("Write tests for movement between staffs")
+    vim.api.nvim_buf_set_lines(buf, 0, 0, false, {
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+    })
+    vim.api.nvim_win_set_cursor(win, { 1, 0 })
+
+    local status, errstr = guitar.add_staff()
+    assert(status)
+    assert(errstr == nil)
+
+    vim.api.nvim_win_set_cursor(win, { 10, 0 })
+    status, errstr = guitar.add_staff()
+    assert(status)
+    assert(errstr == nil)
+
+    status, errstr = guitar.next_staff_forward()
+    assert(status)
+    assert(errstr == nil)
+    local pos = vim.api.nvim_win_get_cursor(win)
+    assert.are.same(pos, { 10, 0 })
+
+    status, errstr = guitar.next_staff_forward()
+    assert(status)
+    assert(errstr == nil)
+    local pos = vim.api.nvim_win_get_cursor(win)
+    assert.are.same(pos, { 10, 0 })
+
+    status, errstr = guitar.next_staff_backward()
+    assert(status)
+    assert(errstr == nil)
+    local pos = vim.api.nvim_win_get_cursor(win)
+    assert.are.same(pos, { 1, 0 })
+
+    status, errstr = guitar.next_staff_backward()
+    assert(status)
+    assert(errstr == nil)
+    local pos = vim.api.nvim_win_get_cursor(win)
+    assert.are.same(pos, { 1, 0 })
   end)
 end)

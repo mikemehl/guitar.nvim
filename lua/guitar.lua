@@ -61,18 +61,30 @@ function guitar.next_staff_forward(win_in, pos_in)
   local win = win_in or vim.api.nvim_get_current_win()
   local pos = pos_in or vim.api.nvim_win_get_cursor(win)
   local buf = vim.api.nvim_win_get_buf(win)
-  local extmark = vim.api.nvim_buf_get_extmarks(buf, priv.nsid, pos[1], -1, {})
+  local extmark = vim.api.nvim_buf_get_extmarks(buf, priv.nsid, pos, -1, {})
   if not extmark or not extmark[1] then return false, nil end
-  vim.api.nvim_win_set_cursor(win, { extmark[2], extmark[3] })
+  for _, mark in ipairs(extmark) do
+    if mark[2] ~= pos[1] then
+      vim.api.nvim_win_set_cursor(win, { mark[2], mark[3] })
+      break
+    end
+  end
+  return true, nil
 end
 
 function guitar.next_staff_backward(win_in, pos_in)
   local win = win_in or vim.api.nvim_get_current_win()
   local pos = pos_in or vim.api.nvim_win_get_cursor(win)
   local buf = vim.api.nvim_win_get_buf(win)
-  local extmark = vim.api.nvim_buf_get_extmarks(buf, priv.nsid, -1, pos[1], {})
+  local extmark = vim.api.nvim_buf_get_extmarks(buf, priv.nsid, pos, 0, {})
   if not extmark or not extmark[1] then return false, nil end
-  vim.api.nvim_win_set_cursor(win, { extmark[2], extmark[3] })
+  for _, mark in ipairs(extmark) do
+    if mark[2] ~= pos[1] then
+      vim.api.nvim_win_set_cursor(win, { mark[2], mark[3] })
+      break
+    end
+  end
+  return true, nil
 end
 
 function guitar.get_num_staffs(buf)
