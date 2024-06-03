@@ -111,4 +111,8 @@ describe("add_staff", function()
     local pos = vim.api.nvim_win_get_cursor(win)
     assert.are.same(pos, { 1, 0 })
   end)
+
+  it("can scan buffer for staffs", function()
+    pending("Add staff scanning functionality")
+  end)
 end)

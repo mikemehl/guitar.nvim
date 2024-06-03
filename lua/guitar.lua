@@ -94,4 +94,16 @@ function guitar.get_num_staffs(buf)
   return #extmarks
 end
 
+function guitar.scan_for_staffs(buf_in)
+  local buf = buf_in or 0
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  if not lines then return false, "No lines in buffer" end
+
+  local i = 1
+  while i < #lines do
+    -- TODO: Check for staffs
+  end
+  return true, nil
+end
+
 return guitar
