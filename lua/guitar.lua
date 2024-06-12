@@ -101,7 +101,16 @@ function guitar.scan_for_staffs(buf_in)
 
   local i = 1
   while i < #lines do
-    -- TODO: Check for staffs
+    local new_staff_lines = {}
+    while string.match(lines[i], "^|%-+|") do
+      table.insert(new_staff_lines, i)
+      i = i + 1
+    end
+    if #new_staff_lines > 0 then
+      vim.api.nvim_buf_set_extmark(buf, priv.nsid, new_staff_lines[1], 0,
+        { end_row = new_staff_lines[#new_staff_lines], end_col = 0 })
+    end
+    i = i + 1
   end
   return true, nil
 end

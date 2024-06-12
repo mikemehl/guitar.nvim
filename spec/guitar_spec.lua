@@ -113,6 +113,33 @@ describe("add_staff", function()
   end)
 
   it("can scan buffer for staffs", function()
-    pending("Add staff scanning functionality")
+    vim.api.nvim_buf_set_lines(buf, 0, 0, false, {
+      "",
+      "",
+      "",
+      "|--------------------------------------------------------------------------------|",
+      "|--------------------------------------------------------------------------------|",
+      "|--------------------------------------------------------------------------------|",
+      "|--------------------------------------------------------------------------------|",
+      "|--------------------------------------------------------------------------------|",
+      "|--------------------------------------------------------------------------------|",
+      "",
+      "",
+      "",
+    })
+    local status, errstr = guitar.scan_for_staffs(buf)
+    assert(status)
+    assert(errstr == nil)
+
+    local num_staffs = guitar.get_num_staffs(buf)
+    assert.are.equals(num_staffs, 1)
+
+    vim.api.nvim_win_set_cursor(win, { 1, 0 })
+    status, errstr = guitar.next_staff_forward()
+    assert(status)
+    assert(errstr == nil)
+
+    local pos = vim.api.nvim_win_get_cursor(win)
+    assert.are.same(pos, { 4, 0 })
   end)
 end)
