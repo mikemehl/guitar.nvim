@@ -142,4 +142,8 @@ describe("add_staff", function()
     local pos = vim.api.nvim_win_get_cursor(win)
     assert.are.same(pos, { 4, 0 })
   end)
+
+  it("can add string tuning to staffs", function()
+    local status, errstr = guitar.add_staff()
+  end)
 end)
