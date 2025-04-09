@@ -9,6 +9,8 @@ labels = []
 license = "MIT"
 
 [dependencies]
+busted = "2.2.0-1"
+xmlua = "1.2.2-0"
 # Add your dependencies here
 # `busted = ">=2.0"`
 
