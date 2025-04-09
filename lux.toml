@@ -5,7 +5,7 @@ lua = ">=5.1"
 [description]
 summary = "A neovim plugin to aid in writing guitar tablature."
 maintainer = "Mike Mehl"
-labels = [  ]
+labels = []
 license = "MIT"
 
 [dependencies]
@@ -13,7 +13,8 @@ license = "MIT"
 # `busted = ">=2.0"`
 
 [run]
-args = [ "src/main.lua" ]
+command = "nvim"
+args = ["-l", "lua/guitar/init.lua"]
 
 [build]
 type = "builtin"
