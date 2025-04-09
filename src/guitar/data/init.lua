@@ -1,3 +1,0 @@
-return {
-  note = require("note"),
-}
